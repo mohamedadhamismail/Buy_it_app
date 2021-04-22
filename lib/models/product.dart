@@ -6,7 +6,7 @@ class Product{
   String pPrice;
   String pDiscription;
   String pCatogery;
-  String pMediaUrl;
+  List<dynamic> pMediaUrl;
   String offer;
   String pbackend_id;
   String pcolor;

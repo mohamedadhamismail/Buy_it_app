@@ -86,7 +86,7 @@ for(var doc in snapshot.data.documents){
                        width: MediaQuery.of(context).size.width * 0.8,
                        height: MediaQuery.of(context).size.height*0.2,
                        decoration: BoxDecoration(
-                           color: KMainColor,
+                           color: KMainColor.withOpacity(0.5),
                            borderRadius: BorderRadius.circular(20)),
                        child: Padding(
                          padding: const EdgeInsets.symmetric(horizontal: 6),

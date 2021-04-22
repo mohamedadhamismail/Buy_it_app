@@ -1,6 +1,7 @@
 import 'package:buy_it/models/product.dart';
 import 'package:buy_it/services/store.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -142,13 +143,25 @@ class _SearchState extends State<Search> {
                                     height:
                                         MediaQuery.of(context).size.height *
                                             0.3,
-                                    decoration: BoxDecoration(
-                                        color: Colors.orange,
-                                        image: DecorationImage(
-                                            fit: BoxFit.cover,
-                                            image: CachedNetworkImageProvider(
-                                                products_result[index]
-                                                    .pMediaUrl))),
+                                    child: CarouselSlider(
+                                      options: CarouselOptions(
+                                        height: 150,
+                                        initialPage: 0,
+                                        autoPlay: true,
+                                        autoPlayInterval: Duration(seconds: 3),
+                                        enlargeCenterPage: true
+
+                                      ),
+                                      items:url_Images_Prodect.map((value)=>Container(
+                                        decoration: BoxDecoration(
+                                            color: Colors.orange,
+                                            image: DecorationImage(
+                                                fit: BoxFit.cover,
+                                                image: CachedNetworkImageProvider(
+                                                   value,),)),
+                                      )) .toList(),
+
+                                    ),
                                   ),
 
                                   Positioned(

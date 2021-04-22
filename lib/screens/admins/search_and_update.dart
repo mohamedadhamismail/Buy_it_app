@@ -242,7 +242,7 @@ SizedBox(child: Container(color: Colors.grey,),
                           fit: BoxFit.cover,
                           image: CachedNetworkImageProvider(
                               products_result[0]
-                                  .pMediaUrl))),
+                                  .pMediaUrl[0]))),
                 ),
                 Container(
                   color: Colors.red.withOpacity(0.5),

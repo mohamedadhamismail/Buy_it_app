@@ -55,6 +55,11 @@ const kAddress = 'Address';
 const kProductQuantity = 'Quantity';
 const kKeepMeLoggedIn = 'KeepMeLoggedIn';
 File file;
+
+
+List<File> files=[];
+List<dynamic> url_Images_Prodect=[];
+
 String postid = Uuid().v4();
 String pbackend_id = Uuid().v4();
 

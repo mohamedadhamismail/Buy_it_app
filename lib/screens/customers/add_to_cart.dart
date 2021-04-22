@@ -180,7 +180,7 @@ class _Add_CartState extends State<Add_Cart> {
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 35),
                 child: RaisedButton(
-                  color: Colors.black.withOpacity(0),
+                  color: Colors.black.withOpacity(0.5),
                       child: Text(
                         '   ORDER  ',
                         style: TextStyle(

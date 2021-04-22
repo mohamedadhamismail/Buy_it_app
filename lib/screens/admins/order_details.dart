@@ -41,154 +41,162 @@ class _Order_DetailsState extends State<Order_Details> {
               })
         ],
       ),
-      body: Stack(
-        children: <Widget>[
-          StreamBuilder(
-              stream: Firestore.instance
-                  .collection(kOrders)
-                  .document(key)
-                  .collection(kOrderDetails)
-                  .snapshots(),
-              builder: (context, snapshot) {
-                if (snapshot.hasData) {
-                  orders = [];
+      body: Container(
+        decoration: BoxDecoration(
+            image: DecorationImage(
+                image: AssetImage('assets/images/main5.jpg'),
+                fit: BoxFit.cover
+            )
+        ),
+        child: Stack(
+          children: <Widget>[
+            StreamBuilder(
+                stream: Firestore.instance
+                    .collection(kOrders)
+                    .document(key)
+                    .collection(kOrderDetails)
+                    .snapshots(),
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    orders = [];
 
-                  for (var doc in snapshot.data.documents) {
-                    orders.add(Order(
-                        pName: doc.data[kProductName],
-                        product_id: doc.data[kProductId],
-                        pMediaUrl: doc.data[kProduct_MediaUrl],
-                        pPrice: doc.data[kProductPrice],
-                        color: doc.data[kProductColor],
-                        quentity: doc.data[kProductQuantity],
-                        docid: doc.documentID,
+                    for (var doc in snapshot.data.documents) {
+                      orders.add(Order(
+                          pName: doc.data[kProductName],
+                          product_id: doc.data[kProductId],
+                          pMediaUrl: doc.data[kProduct_MediaUrl],
+                          pPrice: doc.data[kProductPrice],
+                          color: doc.data[kProductColor],
+                          quentity: doc.data[kProductQuantity],
+                          docid: doc.documentID,
 
-                        size: doc.data[kProductSize]));
-                  }
-                  return ListView.builder(
-                      itemCount: orders.length,
-                      itemBuilder: (context, index) {
-                        return Padding(
-                            padding: const EdgeInsets.only(
-                                left: 17, top: 8, bottom: 4, right: 2),
-                            child: Stack(
-                              children: <Widget>[
-                                Container(
-                                  width:
-                                      MediaQuery.of(context).size.width * 0.9,
-                                  height:
-                                      MediaQuery.of(context).size.height * 0.3,
-                                  decoration: BoxDecoration(
-                                      color: KMainColor,
-                                      borderRadius: BorderRadius.circular(20)),
-                                  child: Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        vertical: 5, horizontal: 8),
-                                    child: Row(
-                                      children: <Widget>[
-                                        CircleAvatar(
-                                          radius: 50,
-                                          backgroundColor: Colors.grey,
-                                          backgroundImage:
-                                              CachedNetworkImageProvider(
-                                                  orders[index].pMediaUrl),
-                                        ),
-                                        Padding(
-                                          padding: const EdgeInsets.symmetric(
-                                              horizontal: 8),
-                                          child: Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceEvenly,
-                                            children: <Widget>[
-                                              Text(
-                                                "Product Id :${orders[index].product_id}",
-                                                style: TextStyle(
-                                                    color: Colors.white,
-                                                    fontWeight: FontWeight.bold,
-                                                    fontSize: 16),
-                                              ),
-                                              Text(
-                                                "Product Name :${orders[index].pName}",
-                                                style: TextStyle(
-                                                    color: Colors.white,
-                                                    fontWeight: FontWeight.bold,
-                                                    fontSize: 16),
-                                              ),
-                                              Text(
-                                                "Product Quentity :${orders[index].quentity}",
-                                                style: TextStyle(
-                                                    color: Colors.white,
-                                                    fontWeight: FontWeight.bold,
-                                                    fontSize: 16),
-                                              ),
-                                              Text(
-                                                "Product Price :${orders[index].pPrice}",
-                                                style: TextStyle(
-                                                    color: Colors.white,
-                                                    fontWeight: FontWeight.bold,
-                                                    fontSize: 16),
-                                              ),
-                                              Text(
-                                                "Product Color :${orders[index].color}",
-                                                style: TextStyle(
-                                                    color: Colors.white,
-                                                    fontWeight: FontWeight.bold,
-                                                    fontSize: 16),
-                                              ),
-                                              Text(
-                                                "Product Size :${orders[index].size}",
-                                                style: TextStyle(
-                                                    color: Colors.white,
-                                                    fontWeight: FontWeight.bold,
-                                                    fontSize: 16),
-                                              ),
-                                              Row(mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                                children: <Widget>[
-                                                RaisedButton(
-                                                  shape: RoundedRectangleBorder(
-                                                      borderRadius: BorderRadius.circular(20)),
-                                                  onPressed: () {
-                                                    showmassage(context);
-                                                  },
-                                                  child: Text('Delete'),
-                                                  color: Colors.white,
-                                                ),
-                                                SizedBox(width: 8,),
-                                                RaisedButton(
-                                                    color: Colors.white,
-                                                    onPressed: ()async {
-                                                      await updateconf(orders[index].docid);
-
-
-                                                    },
-                                                    child: Text('Confirm'),
-                                                    shape: RoundedRectangleBorder(
-                                                        borderRadius: BorderRadius.circular(20)))
-                                              ],)
-
-                                            ],
+                          size: doc.data[kProductSize]));
+                    }
+                    return ListView.builder(
+                        itemCount: orders.length,
+                        itemBuilder: (context, index) {
+                          return Padding(
+                              padding: const EdgeInsets.only(
+                                  left: 17, top: 8, bottom: 4, right: 2),
+                              child: Stack(
+                                children: <Widget>[
+                                  Container(
+                                    width:
+                                        MediaQuery.of(context).size.width * 0.9,
+                                    height:
+                                        MediaQuery.of(context).size.height * 0.3,
+                                    decoration: BoxDecoration(
+                                        color: KMainColor.withOpacity(0.4),
+                                        borderRadius: BorderRadius.circular(20)),
+                                    child: Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 5, horizontal: 8),
+                                      child: Row(
+                                        children: <Widget>[
+                                          CircleAvatar(
+                                            radius: 50,
+                                            backgroundColor: Colors.grey,
+                                            backgroundImage:
+                                                CachedNetworkImageProvider(
+                                                    orders[index].pMediaUrl),
                                           ),
-                                        )
-                                      ],
+                                          Padding(
+                                            padding: const EdgeInsets.symmetric(
+                                                horizontal: 8),
+                                            child: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.spaceEvenly,
+                                              children: <Widget>[
+                                                Text(
+                                                  "Product Id :${orders[index].product_id}",
+                                                  style: TextStyle(
+                                                      color: Colors.white,
+                                                      fontWeight: FontWeight.bold,
+                                                      fontSize: 16),
+                                                ),
+                                                Text(
+                                                  "Product Name :${orders[index].pName}",
+                                                  style: TextStyle(
+                                                      color: Colors.white,
+                                                      fontWeight: FontWeight.bold,
+                                                      fontSize: 16),
+                                                ),
+                                                Text(
+                                                  "Product Quentity :${orders[index].quentity}",
+                                                  style: TextStyle(
+                                                      color: Colors.white,
+                                                      fontWeight: FontWeight.bold,
+                                                      fontSize: 16),
+                                                ),
+                                                Text(
+                                                  "Product Price :${orders[index].pPrice}",
+                                                  style: TextStyle(
+                                                      color: Colors.white,
+                                                      fontWeight: FontWeight.bold,
+                                                      fontSize: 16),
+                                                ),
+                                                Text(
+                                                  "Product Color :${orders[index].color}",
+                                                  style: TextStyle(
+                                                      color: Colors.white,
+                                                      fontWeight: FontWeight.bold,
+                                                      fontSize: 16),
+                                                ),
+                                                Text(
+                                                  "Product Size :${orders[index].size}",
+                                                  style: TextStyle(
+                                                      color: Colors.white,
+                                                      fontWeight: FontWeight.bold,
+                                                      fontSize: 16),
+                                                ),
+                                                Row(mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                                  children: <Widget>[
+                                                  RaisedButton(
+                                                    shape: RoundedRectangleBorder(
+                                                        borderRadius: BorderRadius.circular(20)),
+                                                    onPressed: () {
+                                                      showmassage(context);
+                                                    },
+                                                    child: Text('Delete'),
+                                                    color: Colors.white,
+                                                  ),
+                                                  SizedBox(width: 8,),
+                                                  RaisedButton(
+                                                      color: Colors.white,
+                                                      onPressed: ()async {
+                                                        await updateconf(orders[index].docid);
+
+
+                                                      },
+                                                      child: Text('Confirm'),
+                                                      shape: RoundedRectangleBorder(
+                                                          borderRadius: BorderRadius.circular(20)))
+                                                ],)
+
+                                              ],
+                                            ),
+                                          )
+                                        ],
+                                      ),
                                     ),
                                   ),
-                                ),
-                              ],
-                            )
-                        );
-                      });
-                } else {
-                  return Center(
-                    child: Text('Loading Oreder.....',
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 25)),
-                  );
-                }
-              }),
+                                ],
+                              )
+                          );
+                        });
+                  } else {
+                    return Center(
+                      child: Text('Loading Oreder.....',
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold, fontSize: 25)),
+                    );
+                  }
+                }),
 
-        ],
+          ],
+        ),
       ),
     );
   }

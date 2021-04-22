@@ -4,7 +4,9 @@ import 'package:buy_it/screens/customers/product_info.dart';
 import 'package:buy_it/screens/customers/search_product_by_user.dart';
 import 'package:buy_it/services/store.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/cupertino.dart';
 import"package:flutter/material.dart";
 import 'package:buy_it/services/auth.dart';
 import 'package:buy_it/constants.dart';
@@ -184,12 +186,19 @@ Widget productView(String nameproduct) {
 
                 GridView.builder(
                     gridDelegate: new SliverGridDelegateWithFixedCrossAxisCount
-                      (crossAxisCount: 2 ,mainAxisSpacing: 0,crossAxisSpacing: 0),
+                      (
+                  //    childAspectRatio: 3/2,
+                        crossAxisCount: 2
+                      ,mainAxisSpacing: 0,
+                      crossAxisSpacing: 0
+
+
+                    ),
 
                     itemCount: products_result.length,
                     itemBuilder: (context, index) =>
                         Container(
-                      height: MediaQuery.of(context).size.height*0.27,
+                     // height: MediaQuery.of(context).size.height*0.27,
                       child: Padding(
                         padding: EdgeInsets.symmetric(horizontal: 3,vertical: 4),
                         child: Column(
@@ -207,37 +216,60 @@ Widget productView(String nameproduct) {
                               child: Stack(
                                 children: <Widget>[
                                   Container(
-                                    // color: Colors.orange,
+                                     //color: Colors.black,
                                     //   width: MediaQuery.of(context).size.width * 0.95,
                                     height: MediaQuery.of(context).size.height * 0.24,
-                                    decoration: BoxDecoration(
-                                        color: Colors.orange,
-                                        image: DecorationImage(
-                                            fit: BoxFit.cover,
-                                            image: CachedNetworkImageProvider(
-                                                products_result[index]
-                                                    .pMediaUrl))),
+                                   child: CarouselSlider(
+                                     options: CarouselOptions(
+                                       //  height: 150,
+                                         initialPage: 0,
+                                         autoPlay: true,
+                                         scrollDirection: Axis.vertical,
+                                         autoPlayInterval: Duration(seconds: 3),
+                                         enlargeCenterPage: true
+
+                                     ),
+                                     items: products_result[index].pMediaUrl.map((value)=>Container(
+                                       decoration: BoxDecoration(
+                                           color: Colors.orange,
+                                           image: DecorationImage(
+                                             fit: BoxFit.cover,
+                                             image: CachedNetworkImageProvider(
+                                               value,),)),
+                                     )) .toList(),
+
+                                   ),
                                   ),
+                                  Container(color: Colors.white,height: 10,),
+
                                   products_result[index].offer!='0'?
                                   Container(
                                     color: Colors.red.withOpacity(0.5),
-                                    child: Text('Offer ${products_result[index].offer} %',style: TextStyle(color: Colors.white,
+                                    child: Text('  Offer ${products_result[index].offer} %  ',style: TextStyle(color: Colors.white,
                                         fontSize: 15,fontWeight: FontWeight.bold),),
                                   ):
                                   Container(
                                     color: Colors.red.withOpacity(0),
                                   ),
                                   Positioned(
-                                    bottom: 0,
-                                    left: 0,
-                                    right: 0,
-                                    child: Container(
-                                      color: Colors.green.withOpacity(0.5),
-                                      child: Center(
-                                          child: Text(products_result[0].pName,
-                                            style: TextStyle(fontWeight: FontWeight.bold,fontSize: 18),)),
+                                      bottom: 0,
+                                      left: 0,right: 0,
+                                      child: Container(color: Colors.white,height: 10,)),
+                                     Positioned(
+                                      bottom: 0,
+                                      left: 0,
+                                      right: 0,
+                                      child: Container(
+                                        color: Colors.green.withOpacity(0.8),
+                                        child: Center(
+                                            child: Text(products_result[0].pName.toUpperCase(),
+                                              style: TextStyle(fontWeight: FontWeight.bold,
+                                                  fontSize: 18,color: Colors.black.withOpacity(0.7)),)),
+                                      ),
                                     ),
-                                  )
+
+
+
                                 ],
                               ),
                             ),

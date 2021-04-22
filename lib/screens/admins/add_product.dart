@@ -34,7 +34,9 @@ class _Add_productState extends State<Add_product> {
   TextEditingController productcategory_admin=TextEditingController();
   GlobalKey<ScaffoldState> scaffol_addproduct_dkey=  GlobalKey<ScaffoldState>();
   GlobalKey<FormState> form_addproduct_key=GlobalKey<FormState>();
-  String MediaUrlProduct;
+  String MediaUrlProduct1;
+  String MediaUrlProduct2;
+int inimage=0;
   bool isloading=false;
   String currentadminemail;
   String currentadminuid;
@@ -59,11 +61,11 @@ class _Add_productState extends State<Add_product> {
     file = File(imagefile.path);
     setState(()async {
       print('start');
-      await compressImage();
+    await compressImage();
       print('end');
 
     });
-
+return file;
   }
 
   handleCamera() async {
@@ -80,8 +82,9 @@ class _Add_productState extends State<Add_product> {
 
 
 
-      await compressImage();
+     await compressImage();
     });
+
 
   }
 
@@ -93,6 +96,8 @@ class _Add_productState extends State<Add_product> {
       ..writeAsBytesSync(Im.encodeJpg(imageFile));
 
     file = compressImageFile;
+   files.add(file);
+
 
   }
 
@@ -122,7 +127,7 @@ class _Add_productState extends State<Add_product> {
                 child: Text('photo with camera'),
                 onPressed: () {
                   Navigator.pop(context);
-                 handleCamera();
+              handleCamera();
                 },
               ),
               SimpleDialogOption(
@@ -159,12 +164,19 @@ class _Add_productState extends State<Add_product> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    getcurrntadmin();
+setState(() {
+  files=[];
+
+});
+getcurrntadmin();
   }
   @override
   Widget build(BuildContext context) {
+
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
+    files=[];
+
     return Scaffold(
       key: scaffol_addproduct_dkey,
       backgroundColor: KMainColor,
@@ -306,19 +318,24 @@ class _Add_productState extends State<Add_product> {
                  shape: RoundedRectangleBorder(
                    borderRadius: BorderRadius.circular(20)),
                  color:Colors.black,
-                 onPressed: (){
-                   chooseImage(context);
+                 onPressed: ()async{
+
+                   await chooseImage(context);
 
                  }, child: Container(
                  width: width*0.5,
                  child: Row(
 mainAxisAlignment: MainAxisAlignment.center,
                    children: <Widget>[
-                     Text('Add Product Image'  ,style: TextStyle(color: Colors.white),
+                     Text('Add Product Image 1'  ,style: TextStyle(color: Colors.white),
                      ),SizedBox(width: 5,),Icon(Icons.add_a_photo,size: 15,color: Colors.white,)
                    ],
                  ),
                ),),
+                SizedBox(
+                  height: height * 0.015,
+                ),
+
                 SizedBox(
                   height: height * 0.05,
                 ),
@@ -333,21 +350,34 @@ mainAxisAlignment: MainAxisAlignment.center,
                       addproduct_errormassage=true;
 
                     });
-                    if(form_addproduct_key.currentState.validate()&&file!=null)
+
+
+
+                    if(form_addproduct_key.currentState.validate()&&files!=null)
                     {
 
                       setState(() {
                         isloading=true;
+                        url_Images_Prodect=[];
                       });
-                      MediaUrlProduct = await uploadImage(file);
+                      print('start*************${files.length}');
 
+                      for(var i in files){
+                        url_Images_Prodect.add(await uploadImage(i))  ;
+
+                        print('end***********${url_Images_Prodect.length}');
+
+                      }
+
+                      print("1 image    >${url_Images_Prodect[0]}");
+                      print("2 image    >${url_Images_Prodect[1]}");
                       store.addData(Product(
                         offer: product_offer.text,
                         pName:addproductname_admin.text.toLowerCase(),
                         pPrice: productprice_admin.text,
                         pDiscription: productdescription_admin.text,
                         pCatogery: productcategory_admin.text.toLowerCase(),
-                        pMediaUrl: MediaUrlProduct,
+                        pMediaUrl: url_Images_Prodect,
                         timestamp: timestamp,
                         adminupload:currentadminemail,
                         uidadminUpload: product_id_admin.text,//product id
@@ -360,10 +390,10 @@ mainAxisAlignment: MainAxisAlignment.center,
                       setState(() {
                         isloading=false;
                       });
-                      MediaUrlProduct=null;
+                      MediaUrlProduct1=null;
                       Navigator.pop(context);
 
-                    }else if(form_addproduct_key.currentState.validate()&&MediaUrlProduct==null){
+                    }else if(form_addproduct_key.currentState.validate()&&MediaUrlProduct1==null){
                       SnackBar snackbar=SnackBar(content: Text('Please choose prodect image'));
                       scaffol_addproduct_dkey.currentState.showSnackBar(snackbar);
                     }
