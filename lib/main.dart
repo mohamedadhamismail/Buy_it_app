@@ -19,7 +19,6 @@ import 'package:buy_it/screens/customers/search_product_by_user.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
 import 'models/progressindicator.dart';
 
 void main() {
